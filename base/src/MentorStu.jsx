@@ -7,7 +7,7 @@ const MentorStu = () => {
     const [data,setData] = useState()
     const [load,setLoad] = useState(false)
     useEffect(()=>{
-        axios.get(`https://writo-education-frontend.onrender.com/api/mentor-student/${id}`)
+        axios.get(`https://writo-education-frontend.onrender.com/mentor-student/${id}`)
         .then(result=>{
             setData(result.data)
             setLoad(true)
