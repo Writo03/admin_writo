@@ -9,7 +9,7 @@ const quizRouter = require('./routes/quizRoute')
 const cors=require('cors')
 
 app.use(cors({
-    origin : 'http://localhost:5173',
+    origin : ['http://localhost:5173','https://admin-writo.vercel.app/'],
     methods:["GET","POST","PUT","DELETE"],
     credentials : true
 }))
