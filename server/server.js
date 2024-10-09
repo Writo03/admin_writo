@@ -7,12 +7,22 @@ const mongoose = require('mongoose')
 const router = require('./routes/route')
 const quizRouter = require('./routes/quizRoute')
 const cors=require('cors')
+const allowedOrigins = ['https://admin-writo.vercel.app/',"http://localhost:3000","http://localhost:5173"];
 
-app.use(cors({
-    origin : ['http://localhost:5173','https://admin-writo.vercel.app/'],
-    methods:["GET","POST","PUT","DELETE"],
-    credentials : true
-}))
+const corsOptions = {
+  origin: (origin, callback) => {
+    if (allowedOrigins.indexOf(origin) !== -1 || !origin) {
+      callback(null, true);
+    } else {
+      callback(new Error('Not allowed by CORS'));
+    }
+  },
+  methods: ['GET', 'POST', 'PUT', 'DELETE', 'OPTIONS'],
+  allowedHeaders: ['Content-Type', 'Authorization'],
+  credentials: true,
+};
+
+app.use(cors(corsOptions));
 
 app.use(express.json())
 app.use(express.urlencoded({extended: true})); 
