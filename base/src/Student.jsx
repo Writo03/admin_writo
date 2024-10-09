@@ -6,7 +6,7 @@ const Student = () => {
     const [data,setData]=useState();
     const [load,setLoad] = useState(false)
     useEffect(()=>{
-        axios.get('https://writo-education-frontend.onrender.com/api/get-students')
+        axios.get('https://admin-writo.onrender.com/get-students')
         .then(result=>{
             setData(result.data)
             setLoad(true)

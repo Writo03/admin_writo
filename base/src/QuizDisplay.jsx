@@ -9,7 +9,7 @@ const Test_Series = () => {
   const [load, setLoad] = useState(true)
 
   useEffect(() => {
-    axios.get("https://writo-education-frontend.onrender.com/get-quizes")
+    axios.get("https://admin-writo.onrender.com/get-quizes")
       .then((result) => {
         setData(result.data)
         console.log(result.data)

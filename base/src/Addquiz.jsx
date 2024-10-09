@@ -33,7 +33,7 @@ const Addquiz = () => {
   };
 
   const handleSubmit = () => {
-    axios.post(`https://writo-education-frontend.onrender.com/add-quiz`, { test, questions })
+    axios.post(`https://admin-writo.onrender.com/add-quiz`, { test, questions })
     .then(result => {
       console.log(result)
       navigate('/')
