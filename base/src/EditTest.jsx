@@ -12,7 +12,7 @@ const EditTest = () => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await axios.get(`https://writo-education-frontend.onrender.com/get-quiz/${id}`);
+        const response = await axios.get(`https://writo-education-frontend.onrender.com/api/quiz/get-quiz/${id}`);
         setQuiz(response.data); // Assuming response.data contains the quiz object
         setLoading(false);
       } catch (error) {
