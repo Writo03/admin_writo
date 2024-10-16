@@ -6,6 +6,7 @@ const app = express();
 const mongoose = require('mongoose');
 const router = require('./routes/route');
 const quizRouter = require('./routes/quizRoute');
+const blogRouter = require("./routes/blog.route.js");
 const cors = require('cors');
 
 // Allowed origins for CORS
@@ -69,3 +70,4 @@ mongoose.connect(URL)
 // Use the router for handling routes
 app.use(router);
 app.use(quizRouter);
+app.use(blogRouter)
