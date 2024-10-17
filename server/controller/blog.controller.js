@@ -1,5 +1,6 @@
 const BlogModel = require("../models/blog")
 const mongoose = require("mongoose")
+const jwt = require("jsonwebtoken")
 
 const addBlog = async (req, res) => {
   try {
@@ -8,10 +9,16 @@ const addBlog = async (req, res) => {
       return res.status(404).send("All fields are required")
     }
 
+    const token = req.cookies?.token || req.header("Authorization")?.replace("Bearer ", "")
+    if(!token){
+      return res.status(401).send("Unauthorized request")
+    }
+    const decodedToken = jwt.verify(token, process.env.ACCESS_TOKEN_SECRET)
+
     const blog = await BlogModel.create({
       title,
       content,
-      author: req.user._id,
+      author: decodedToken.id,
     })
 
     return res.status(201).json({
