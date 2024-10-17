@@ -35,6 +35,12 @@ const Home = () => {
             <p className="text-gray-600 mt-2">View all existing quizzes.</p>
           </div>
         </Link>
+        <Link to={'/blogs'}>
+          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+            <h2 className="text-xl font-semibold text-purple-500">Show Blogs</h2>
+            <p className="text-gray-600 mt-2">View all existing blogs.</p>
+          </div>
+        </Link>
       </div>
     </div>
   );

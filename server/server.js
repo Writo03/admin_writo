@@ -7,7 +7,9 @@ const mongoose = require('mongoose');
 const router = require('./routes/route');
 const quizRouter = require('./routes/quizRoute');
 const blogRouter = require("./routes/blog.route.js");
+const userRouter = require("./routes/user.routes.js");
 const cors = require('cors');
+const cookiesParser = require("cookie-parser")
 
 // Allowed origins for CORS
 const allowedOrigins = [
@@ -32,6 +34,7 @@ const corsOptions = {
 
 // Apply CORS middleware to handle CORS with the specified options
 app.use(cors(corsOptions));
+app.use(cookiesParser())
 
 // Handle preflight requests (OPTIONS method)
 app.options('*', cors(corsOptions));
@@ -71,3 +74,4 @@ mongoose.connect(URL)
 app.use(router);
 app.use(quizRouter);
 app.use(blogRouter)
+app.use(userRouter)

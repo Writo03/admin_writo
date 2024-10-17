@@ -7,6 +7,7 @@ import MentorStu from './MentorStu';
 import Addquiz from './Addquiz';
 import QuizDisplay from './QuizDisplay';
 import EditTest from './EditTest';
+import Blogs from './Blogs';
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
         <Route path='/add-quiz' element={<Addquiz/>}/>
         <Route path='/all-quizes' element={<QuizDisplay/>}/>
         <Route path='/edit-test/:id' element={<EditTest/>}/>
+        <Route path='/blogs' element={<Blogs/>}/>
       </Routes>
     </BrowserRouter>
   );
