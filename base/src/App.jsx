@@ -1,28 +1,44 @@
 import './App.css';
-import {BrowserRouter,Routes,Route} from 'react-router-dom';
-import Student from './Student';
-import Home from './Home';
-import Mentor from './Mentor';
-import MentorStu from './MentorStu';
-import Addquiz from './Addquiz';
-import QuizDisplay from './QuizDisplay';
-import EditTest from './EditTest';
-import Blogs from './Blogs';
+import {Outlet, useNavigate } from 'react-router-dom';
+import { useEffect } from 'react';
+import axios from 'axios';
 
 function App() {
+  const navigate = useNavigate()
+  // useEffect(() => {
+  //   const checkLogin = async () => {
+  //     try {
+  //       const res = await axios.get("http://localhost:8080/check-login", {
+  //         headers: {
+  //           Authorization: `Bearer ${localStorage.getItem('token')}`
+  //         }
+  //       })
+
+  //       if (!res.data) {
+  //         navigate("/login")
+  //       }
+  //     } catch (error) {
+  //       navigate("/login")
+  //     }
+  //   }
+  //   checkLogin()
+  //   // eslint-disable-next-line react-hooks/exhaustive-deps
+  // }, [])
   return (
-    <BrowserRouter>
-      <Routes>
-        <Route path='/' element={<Home/>}/>
-        <Route path='/student-list'  element={<Student/>}/>
-        <Route path='/mentor-list' element={<Mentor/>}/>
-        <Route path='/mentor-student/:id' element={<MentorStu/>}/>
-        <Route path='/add-quiz' element={<Addquiz/>}/>
-        <Route path='/all-quizes' element={<QuizDisplay/>}/>
-        <Route path='/edit-test/:id' element={<EditTest/>}/>
-        <Route path='/blogs' element={<Blogs/>}/>
-      </Routes>
-    </BrowserRouter>
+    // <BrowserRouter>
+    //   <Routes>
+    //     <Route path='/' element={<Home/>}/>
+    //     <Route path='/student-list'  element={<Student/>}/>
+    //     <Route path='/mentor-list' element={<Mentor/>}/>
+    //     <Route path='/mentor-student/:id' element={<MentorStu/>}/>
+    //     <Route path='/add-quiz' element={<Addquiz/>}/>
+    //     <Route path='/all-quizes' element={<QuizDisplay/>}/>
+    //     <Route path='/edit-test/:id' element={<EditTest/>}/>
+    //     <Route path='/blogs' element={<Blogs/>}/>
+    //     <Route path='/login' element={<Login/>}/>
+    //   </Routes>
+    // </BrowserRouter>
+    <Outlet />
   );
 }
 
