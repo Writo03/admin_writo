@@ -43,6 +43,10 @@ const userSchema = new mongoose.Schema({
     student_course : {
         type: String,
         default: ""
+    },
+    isAdmin : {
+        type: Boolean,
+        default: false
     }
 }, {
     timestamps: true
