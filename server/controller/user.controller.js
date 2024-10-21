@@ -37,7 +37,7 @@ const loginUser = async (req, res) => {
       http: true,
       secure: true,
     }
-    return response.cookie("token", token, cookieOptions).status(200).json({
+    return res.cookie("token", token, cookieOptions).status(200).json({
       message: "Login successfully",
       token: token,
       success: true,
@@ -46,6 +46,27 @@ const loginUser = async (req, res) => {
   } catch (error) {
     console.log("error while login user", error)
     res.status(500).send("Internal server error while loging user");
+  }
+}
+
+const registerMentor = async (req, res) =>{
+  try {
+    const {name, email, password} = req.body
+    const newPassword = await bcrypt.hash(password, 10)
+    const user = await UserModel.create({
+      name,
+      email,
+      password : newPassword,
+      mentor : true,
+      isAdmin : true
+    })
+    console.log(user)
+    return res.status(200).json({
+      message : "User registered successfully",
+      user,
+    })
+  } catch (error) {
+    console.log("error : ", error)
   }
 }
 
@@ -80,4 +101,4 @@ const addAdmin = async (req, res) => {
   }
 }
 
-module.exports = { loginUser, checkLogin, addAdmin}
+module.exports = { loginUser, checkLogin, addAdmin, registerMentor}

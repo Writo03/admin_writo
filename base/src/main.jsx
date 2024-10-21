@@ -21,6 +21,7 @@ import AddPost from "./AddPost.jsx"
 
 import { store } from "./redux/store.js"
 import { Provider } from "react-redux"
+import EditPost from "./EditPost.jsx"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -34,7 +35,8 @@ const router = createBrowserRouter(
       <Route path="/edit-test/:id" element={<EditTest />} />
       <Route path="/blogs" element={<Blogs />} />
       <Route path="/login" element={<Login />} />
-      <Route path="/add-post" element={<AddPost />} />
+      <Route path="/add-blog" element={<AddPost />} />
+      <Route path="/edit-blog/:postId" element={<EditPost />} />
     </Route>
   )
 )

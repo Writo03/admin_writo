@@ -4,7 +4,6 @@ import { useSelector } from "react-redux"
 
 const Home = () => {
   const user = useSelector((state) => state.user.userData)
-  console.log(user)
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
       {user?.isAdmin && (

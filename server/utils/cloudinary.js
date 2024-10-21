@@ -34,9 +34,9 @@ const deleteFromCloudinary = async (imgUrl) => {
   try {
     if (!imgUrl) return null
     let imgArray = imgUrl.split("/")
-    let folder = imgArray[imgArray.length - 2]
-    let id = imgArray[imgArray.length - 1].split(".")[0]
-    let publicId = `${folder}/${id}`
+    // let folder = imgArray[imgArray.length - 2]
+    let publicId = imgArray[imgArray.length - 1].split(".")[0]
+    // let publicId = `${folder}/${id}`
     let response = await cloudinary.uploader.destroy(publicId, {
       resource_type: "image",
     })

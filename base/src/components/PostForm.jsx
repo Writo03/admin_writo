@@ -1,36 +1,50 @@
-import React, { useCallback } from "react"
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import RTE from "./TextEditor"
 import axios from "axios"
 
 const PostForm = ({ post }) => {
-  const { register, handleSubmit, getValues, control } =
-    useForm({
-      defaultValues: {
-        title: post?.title || "",
-        content: post?.content || "",
-      },
-    })
+  const { register, handleSubmit, control } = useForm({
+    defaultValues: {
+      title: post?.title || "",
+      content: post?.content || "",
+    },
+  })
   const navigate = useNavigate()
 
   const submit = async (data) => {
-    if(post){
+    console.log(data)
+    if (post) {
       try {
-        const res = await axios.patch(`https://admin-writo.onrender.com/update-blog/${post._id}`, {
-          title : data.title,
-          content : data.content
-        })
+        const res = await axios.patch(
+          `http://localhost:8080/update-blog/${post._id}`,
+          {
+            title: data.title,
+            content: data.content,
+          }
+        )
         console.log(res)
+        navigate("/blogs")
       } catch (error) {
         console.log(error)
       }
-    }else{
+    } else {
+      console.log(data)
+      const formData = new FormData()
+      formData.append("title", data.title)
+      formData.append("content", data.content)
+      formData.append("image", data.image[0])
       try {
-        const res = await axios.post("https://admin-writo.onrender.com/add-post", {
-          title : data.title,
-          content : data.content
-        })
+        const res = await axios.post(
+          "http://localhost:8080/add-blog",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+              Authorization: `Bearer ${localStorage.getItem("token")}`,
+            },
+          }
+        )
         console.log(res)
       } catch (error) {
         console.log(error)
@@ -38,19 +52,23 @@ const PostForm = ({ post }) => {
     }
   }
   return (
-    <form onSubmit={handleSubmit(submit)} className="flex flex-wrap flex-col gap-4">
+    <form
+      onSubmit={handleSubmit(submit)}
+      className="flex flex-wrap flex-col gap-4"
+    >
       <div className="md:w-2/3 w-11/12 px-2">
         <input
           label="Title :"
           placeholder="Title"
           className="mb-4 p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500"
           {...register("title", { required: true })}
+          defaultValue={post?.title || ""}
         />
         <RTE
           label="Content :"
           name="content"
           control={control}
-          defaultValue={getValues("content")}
+          defaultValue={post?.content}
         />
       </div>
       <div className="md:w-1/3 w-3/4 px-2">
@@ -63,11 +81,7 @@ const PostForm = ({ post }) => {
         />
         {post && (
           <div className="w-full mb-4">
-            <img
-              src={post.img}
-              alt={post.title}
-              className="rounded-lg"
-            />
+            <img src={post.image} alt={post.title} className="rounded-lg" />
           </div>
         )}
         <button

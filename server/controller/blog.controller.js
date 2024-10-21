@@ -52,29 +52,29 @@ const getBlogs = async (req, res) => {
           createdAt: -1,
         },
       },
-      {
-        $lookup: {
-          from: "users",
-          localField: "author",
-          foreignField: "_id",
-          as: "author",
-          pipeline: [
-            {
-              $project: {
-                name: 1,
-                email: 1,
-              },
-            },
-          ],
-        },
-      },
-      {
-        $addFields: {
-          author: {
-            $first: "$author",
-          },
-        },
-      },
+      // {
+      //   $lookup: {
+      //     from: "users",
+      //     localField: "author",
+      //     foreignField: "_id",
+      //     as: "author",
+      //     pipeline: [
+      //       {
+      //         $project: {
+      //           name: 1,
+      //           email: 1,
+      //         },
+      //       },
+      //     ],
+      //   },
+      // },
+      // {
+      //   $addFields: {
+      //     author: {
+      //       $first: "$author",
+      //     },
+      //   },
+      // },
       {
         $skip: (rPage - 1) * rLimit,
       },
@@ -108,7 +108,7 @@ const getBlogById = async (req, res) => {
     const blog = await BlogModel.aggregate([
       {
         $match: {
-          _id: new mongoose.Schema.Types.ObjectId(id),
+          _id: new mongoose.Types.ObjectId(id),
         },
       },
       {
@@ -140,7 +140,7 @@ const getBlogById = async (req, res) => {
       return res.status(404).send("Blog not found")
     }
 
-    return res.status(200).json({ message: "Blog fetched successfully", blog })
+    return res.status(200).json({ message: "Blog fetched successfully", blog : blog[0] })
   } catch (error) {
     console.log("error while fetching blog", error)
     res.status(500).send("Internal server error while getting blog")

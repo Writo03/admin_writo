@@ -1,33 +1,47 @@
 import React, { useEffect, useState } from "react"
-import { PostForm } from "../components"
-import { useNavigate } from "react-router-dom"
+import  PostForm from "./components/PostForm"
 import { useParams } from "react-router-dom"
 import axios from "axios"
+import Loader from "./components/Loader"
 
 const EditPost = () => {
   const [post, setPost] = useState(null)
+  const [isLoading, setIsLoading] = useState(false)
+  const [isError, setIsError] = useState(false)
   const { postId } = useParams()
-  const navigate = useNavigate()
+
 
   useEffect(() => {
     const getPost = async (postId) => {
-      const post = await axios.get(
-        `https://admin-writo.onrender.com/get-blog/${postId}`
-      )
-      return post
+      try {
+        const post = await axios.get(`http://localhost:8080/get-blog/${postId}`)
+        setPost(post.data.blog)
+        setIsError(false)
+        setIsLoading(false)
+      } catch (error) {
+        setIsError(true)
+        setIsLoading(false)
+      }
     }
-    if (postId) {
-      setPost(getPost(postId))
-    } else {
-      navigate("/")
-    }
-  }, [postId, navigate])
+    getPost(postId)
+  }, [postId])
 
-  return post ? (
+  if (isLoading) {
+    return <Loader />
+  }
+  if (isError) {
+    return (
+      <div className="h-screen flex items-center justify-center font-bold">
+        Something went wrong
+      </div>
+    )
+  }
+
+  return (
     <div className="py-8">
       <PostForm post={post} />
     </div>
-  ) : null
+  )
 }
 
 export default EditPost
