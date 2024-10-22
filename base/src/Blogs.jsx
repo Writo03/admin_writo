@@ -21,13 +21,23 @@ const Blogs = () => {
         setBlogs(res.data.blogs)
       } catch (error) {
         setIsError(true)
-        setError("Failed to load blogs")
+        setError("No blogs available")
       } finally {
         setLoading(false)
       }
     }
     getBlogs()
   }, [])
+
+
+  const deleteBlog = async (blogId) => {
+    try {
+      setBlogs((prev) => prev.filter((blog) => blog._id !== blogId))
+      await axios.delete(`http://localhost:8080/delete-blog/${blogId}`)
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   if (loading) {
     return <Loader/>
@@ -59,7 +69,7 @@ const Blogs = () => {
               <button onClick={() => navigate(`/edit-blog/${blog._id}`)} className="flex items-center gap-2 px-4 py-2 text-white bg-blue-500 rounded-md hover:bg-blue-600 transition">
                 <FaEdit /> Edit
               </button>
-              <button className="flex items-center gap-2 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition">
+              <button onClick={() => deleteBlog(blog._id)} className="flex items-center gap-2 px-4 py-2 text-white bg-red-500 rounded-md hover:bg-red-600 transition">
                 <FaTrashAlt /> Delete
               </button>
             </div>

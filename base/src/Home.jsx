@@ -1,16 +1,80 @@
-import React from "react"
-import { Link } from "react-router-dom"
+import React, { useState } from "react"
+import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
+import axios from "axios"
+import { useDispatch } from "react-redux"
+import {signOut} from "./redux/userSlice/userSlice"
 
 const Home = () => {
   const user = useSelector((state) => state.user.userData)
+  const [isModalOpen, setModalOpen] = useState(false)
+  const [email, setEmail] = useState("")
+  const [response, setResponse] = useState("")
+  const [isAddingAdmin, setIsAddingAdmin] = useState(false)
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
+
+  // Toggle modal visibility
+  const toggleModal = () => {
+    setModalOpen(!isModalOpen)
+    setResponse("")
+  }
+
+  // Handle the admin addition logic
+  const handleAddAdmin = async () => {
+    if (!email) {
+      setResponse("Please enter email address")
+      return
+    }
+    setIsAddingAdmin(true)
+    try {
+      const res = await axios.post(
+        "http://localhost:8080/add-admin",
+        { email },
+        {
+          headers: {
+            Authorization: `Bearer ${localStorage.getItem("token")}`,
+          },
+        }
+      )
+      console.log(res)
+      setEmail("")
+      setResponse(res.data.message)
+    } catch (error) {
+      setResponse(error.response.data)
+    } finally {
+      setIsAddingAdmin(false)
+    }
+  }
+
+  const handleLogOut = () => {
+    localStorage.removeItem("token")
+    dispatch(signOut())
+    navigate("/login")
+
+  }
   return (
-    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
+    <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 relative">
       {user?.isAdmin && (
         <div>
-          <button>Add Admin</button>
+          <button
+            onClick={toggleModal}
+            className="fixed top-4 right-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-lg"
+          >
+            Add Admin
+          </button>
         </div>
       )}
+
+      <div>
+        <button
+          onClick={handleLogOut}
+          className="fixed bottom-4 right-4 bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 rounded-md shadow-lg"
+        >
+          Log out
+        </button>
+      </div>
+
       <h1 className="text-4xl font-bold text-gray-800 mb-6">
         Welcome to the Quiz Management System
       </h1>
@@ -52,6 +116,12 @@ const Home = () => {
             <p className="text-gray-600 mt-2">View all existing quizzes.</p>
           </div>
         </Link>
+        <Link to={"/add-blog"}>
+          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+            <h2 className="text-xl font-semibold text-purple-500">Add Blog</h2>
+            <p className="text-gray-600 mt-2">Create new blog</p>
+          </div>
+        </Link>
         <Link to={"/blogs"}>
           <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
             <h2 className="text-xl font-semibold text-purple-500">
@@ -61,6 +131,58 @@ const Home = () => {
           </div>
         </Link>
       </div>
+      {isModalOpen && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">
+          <div className="bg-white p-6 rounded-lg shadow-lg w-1/3">
+            <h2 className="text-lg font-bold mb-4">Add Admin</h2>
+            <input
+              type="email"
+              placeholder="Enter admin email"
+              value={email}
+              onChange={(e) => setEmail(e.target.value)}
+              className="w-full mb-4 p-2 border-2 border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-indigo-200 focus:border-indigo-500"
+            />
+            {response && <p className="text-red-500 mb-4">{response}</p>}
+            <div className="flex justify-end gap-2">
+              <button
+                onClick={toggleModal}
+                className="bg-gray-400 hover:bg-gray-600 text-white font-bold py-2 px-4 rounded-md"
+              >
+                Cancel
+              </button>
+              <button
+                onClick={handleAddAdmin}
+                className="bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md flex items-center"
+              >
+                {isAddingAdmin ? (
+                  <svg
+                    className="animate-spin h-5 w-5 mr-2 text-white"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                    ></circle>
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    ></path>
+                  </svg>
+                ) : (
+                  "Add Admin"
+                )}
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   )
 }

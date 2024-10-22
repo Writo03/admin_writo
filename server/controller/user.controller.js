@@ -57,10 +57,8 @@ const registerMentor = async (req, res) =>{
       name,
       email,
       password : newPassword,
-      mentor : true,
-      isAdmin : true
+      mentor : true
     })
-    console.log(user)
     return res.status(200).json({
       message : "User registered successfully",
       user,
@@ -93,7 +91,9 @@ const addAdmin = async (req, res) => {
     user.isAdmin = true
     await user.save({validateBeforeSave : false})
 
-    return res.status(200).send("Admin added successfully")
+    return res.status(200).json({
+      message : "Adming added successfully",
+    })
 
   } catch (error) {
     console.log("error while adding admin", error)
