@@ -1,57 +1,70 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose")
 
-const userSchema = new mongoose.Schema({
+const userSchema = new mongoose.Schema(
+  {
     name: {
-        type: String,
-        required: [true, "provide name"]
+      type: String,
+      required: [true, "provide name"],
     },
     email: {
-        type: String,
-        required: [true, "provide email"],
-        unique: true
+      type: String,
+      required: [true, "provide email"],
+      unique: true,
     },
     password: {
-        type: String,
-        required: [true, "provide password"]
+      type: String,
+      required: [true, "provide password"],
     },
     profile_pic: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
     student: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
     mentor: {
-        type: Boolean,
-        default: false
+      type: Boolean,
+      default: false,
     },
-    mymentors: [{
+    mymentors: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: []
-    }],
-    mystudents: [{
+        ref: "User",
+        default: [],
+      },
+    ],
+    mystudents: [
+      {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
-        default: []
-    }],
+        ref: "User",
+        default: [],
+      },
+    ],
     mentor_subject: {
-        type: String,
-        default: ""
+      type: String,
+      default: "",
     },
-    student_course : {
-        type: String,
-        default: ""
+    student_course: {
+      type: String,
+      default: "",
     },
-    isAdmin : {
-        type: Boolean,
-        default: false
-    }
-}, {
-    timestamps: true
-});
+    isAdmin: {
+      type: Boolean,
+      default: false,
+    },
+    mentor_access: [
+      {
+        type: String,
+        enum: ["QUIZ", "BLOG"],
+      },
+    ],
+  },
+  {
+    timestamps: true,
+  }
+)
 
-const UserModel = mongoose.model('User', userSchema);
+const UserModel = mongoose.model("User", userSchema)
 
-module.exports = UserModel;
+module.exports = UserModel

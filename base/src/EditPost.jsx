@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react"
 import  PostForm from "./components/PostForm"
 import { useParams } from "react-router-dom"
-import axios from "axios"
 import Loader from "./components/Loader"
+import axiosInstance from "./utils/axiosIntance"
 
 const EditPost = () => {
   const [post, setPost] = useState(null)
@@ -14,7 +14,7 @@ const EditPost = () => {
   useEffect(() => {
     const getPost = async (postId) => {
       try {
-        const post = await axios.get(`http://localhost:8080/get-blog/${postId}`)
+        const post = await axiosInstance.get(`/get-blog/${postId}`)
         setPost(post.data.blog)
         setIsError(false)
         setIsLoading(false)

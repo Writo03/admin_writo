@@ -1,10 +1,10 @@
 import { useForm } from "react-hook-form"
 import { useNavigate } from "react-router-dom"
 import RTE from "./TextEditor"
-import axios from "axios"
 import { useEffect, useState } from "react"
 import {FaEdit} from "react-icons/fa"
 import Loader from "./Loader"
+import axiosInstance from "../utils/axiosIntance"
 
 const PostForm = ({ post }) => {
   const { register, handleSubmit, control, reset } = useForm({
@@ -28,13 +28,8 @@ const PostForm = ({ post }) => {
     try {
       const formData = new FormData()
       formData.append("image", e.target.files[0])
-      await axios.patch(`http://localhost:8080/update-blog-image/${post._id}`, 
+      await axiosInstance.patch(`/update-blog-image/${post._id}`, 
         formData,
-        {
-          headers : {
-            "Content-Type": "multipart/form-data",
-          }
-        }
       )
       navigate("/blogs")
     } catch (error) {
@@ -58,8 +53,8 @@ const PostForm = ({ post }) => {
     if (post) {
       setIsUploadingBlog(true)
       try {
-        const res = await axios.patch(
-          `http://localhost:8080/update-blog/${post._id}`,
+        const res = await axiosInstance.patch(
+          `/update-blog/${post._id}`,
           {
             title: data.title,
             content: data.content,
@@ -78,15 +73,9 @@ const PostForm = ({ post }) => {
       formData.append("content", data.content)
       formData.append("image", data.image[0])
       try {
-        const res = await axios.post(
-          "http://localhost:8080/add-blog",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-              Authorization: `Bearer ${localStorage.getItem("token")}`,
-            },
-          }
+        const res = await axiosInstance.post(
+          "/add-blog",
+          formData
         )
         navigate("/blogs")
       } catch (error) {

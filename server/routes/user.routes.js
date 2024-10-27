@@ -7,5 +7,6 @@ router.route("/login").post(control.loginUser)
 router.route("/check-login").get(verifyUser, control.checkLogin)
 router.route("/add-admin").post(verifyUser, control.addAdmin)
 router.route("/register").post(control.registerMentor)
+router.route("/add-mentor").post(verifyUser,control.addMentor)
 
 module.exports = router

@@ -1,9 +1,10 @@
 import React, { useState } from "react"
 import { Link, useNavigate } from "react-router-dom"
 import { useSelector } from "react-redux"
-import axios from "axios"
 import { useDispatch } from "react-redux"
 import {signOut} from "./redux/userSlice/userSlice"
+import AddMentor from "./components/AddMentor"
+import axiosInstance from "./utils/axiosIntance"
 
 const Home = () => {
   const user = useSelector((state) => state.user.userData)
@@ -11,6 +12,7 @@ const Home = () => {
   const [email, setEmail] = useState("")
   const [response, setResponse] = useState("")
   const [isAddingAdmin, setIsAddingAdmin] = useState(false)
+  const [toggleAddMentor, setToggleAddMentor] = useState(false)
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
@@ -28,15 +30,9 @@ const Home = () => {
     }
     setIsAddingAdmin(true)
     try {
-      const res = await axios.post(
-        "http://localhost:8080/add-admin",
-        { email },
-        {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        }
-      )
+      const res = await axiosInstance.post(
+        "/add-admin",
+        { email })
       console.log(res)
       setEmail("")
       setResponse(res.data.message)
@@ -62,6 +58,12 @@ const Home = () => {
             className="fixed top-4 right-4 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-lg"
           >
             Add Admin
+          </button>
+          <button
+            onClick={()=> setToggleAddMentor(true)}
+            className="fixed top-4 right-40 bg-indigo-500 hover:bg-indigo-700 text-white font-bold py-2 px-4 rounded-md shadow-lg"
+          >
+            Add Mentor
           </button>
         </div>
       )}
@@ -183,6 +185,11 @@ const Home = () => {
           </div>
         </div>
       )}
+      {
+        toggleAddMentor && <AddMentor
+        toggleModal={() => setToggleAddMentor(false)}
+        />
+      }
     </div>
   )
 }

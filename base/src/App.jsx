@@ -1,9 +1,9 @@
 import "./App.css"
 import { Outlet, useNavigate } from "react-router-dom"
 import { useEffect } from "react"
-import axios from "axios"
 import { useDispatch } from "react-redux"
 import { signIn } from "./redux/userSlice/userSlice"
+import axiosInstance from "./utils/axiosIntance"
 
 function App() {
   const navigate = useNavigate()
@@ -11,11 +11,7 @@ function App() {
   useEffect(() => {
     const checkLogin = async () => {
       try {
-        const res = await axios.get("http://localhost:8080/check-login", {
-          headers: {
-            Authorization: `Bearer ${localStorage.getItem("token")}`,
-          },
-        })
+        const res = await axiosInstance.get("/check-login")
         if (res.data) {
           dispatch(signIn(res.data.data))
         } else {

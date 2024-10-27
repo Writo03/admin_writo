@@ -5,6 +5,11 @@ const imgUpload = require("../utils/cloudinary.js")
 const addBlog = async (req, res) => {
   try {
     const { title, content } = req.body
+
+    if(!req.user.isAdmin && !req.user.mentor_access?.includes("BLOG")){
+      return res.status(404).send("Only admin or mentor with access to blogs can access blog")
+    }
+
     if (!title || !content) {
       return res.status(404).send("All fields are required")
     }
@@ -39,6 +44,9 @@ const addBlog = async (req, res) => {
 
 const getBlogs = async (req, res) => {
   try {
+    if(!req.user.isAdmin && !req.user.mentor_access?.includes("BLOG")){
+      return res.status(404).send("Only admin or mentor with access to blogs can access blog")
+    }
     const { page = "1", limit = "20" } = req.query
     const rPage = parseInt(page.toString())
     const rLimit = parseInt(limit.toString())
@@ -104,6 +112,9 @@ const getBlogs = async (req, res) => {
 
 const getBlogById = async (req, res) => {
   try {
+    if(!req.user.isAdmin && !req.user.mentor_access?.includes("BLOG")){
+      return res.status(404).send("Only admin or mentor with access to blogs can access blog")
+    }
     const { id } = req.params
     const blog = await BlogModel.aggregate([
       {
@@ -149,6 +160,9 @@ const getBlogById = async (req, res) => {
 
 const updateBlog = async (req, res) => {
   try {
+    if(!req.user.isAdmin && !req.user.mentor_access?.includes("BLOG")){
+      return res.status(404).send("Only admin or mentor with access to blogs can access blog")
+    }
     const { id } = req.params
     const { title, content } = req.body
     if (!title || !content) {
@@ -181,6 +195,9 @@ const updateBlog = async (req, res) => {
 
 const updateBlogImage = async (req, res) => {
   try {
+    if(!req.user.isAdmin && !req.user.mentor_access?.includes("BLOG")){
+      return res.status(404).send("Only admin or mentor with access to blogs can access blog")
+    }
     const { id } = req.params
     const imagePath = req.file?.path
 
@@ -216,6 +233,9 @@ const updateBlogImage = async (req, res) => {
 
 const deleteBlog = async (req, res) => {
   try {
+    if(!req.user.isAdmin && !req.user.mentor_access?.includes("BLOG")){
+      return res.status(404).send("Only admin or mentor with access to blogs can access blog")
+    }
     const { id } = req.params
     const blog = await BlogModel.findByIdAndDelete(id)
     if (!blog) {

@@ -101,4 +101,28 @@ const addAdmin = async (req, res) => {
   }
 }
 
-module.exports = { loginUser, checkLogin, addAdmin, registerMentor}
+const addMentor = async (req, res)=> {
+  try {
+    const {email, access} = req.body
+    if(!req.user || !req.user.isAdmin){
+      return res.status(400).send("Only admin can add mentor")
+    }
+
+    const user = await UserModel.findOne({email})
+    if(!user){
+      return res.status(404).send("User not found")
+    }
+    user.mentor = true
+    user.mentor_access = access
+    await user.save({validateBeforeSave : false})
+    return res.status(200).json({
+      message : "Mentor added successfully",
+    })
+
+  } catch (error) {
+    console.log("error while adding mentor", error)
+    res.status(500).send("Internal server error while adding mentor");
+  }
+}
+
+module.exports = { loginUser, checkLogin, addAdmin, registerMentor, addMentor}

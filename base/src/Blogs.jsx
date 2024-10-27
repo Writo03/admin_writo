@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react"
 import { useNavigate } from "react-router-dom"
-import axios from "axios"
 import parser from "html-react-parser"
 import Loader from "./components/Loader"
 import {FaEdit, FaTrashAlt} from "react-icons/fa"
+import axiosInstance from "./utils/axiosIntance"
 
 const Blogs = () => {
   const [blogs, setBlogs] = useState([])
@@ -16,7 +16,7 @@ const Blogs = () => {
     const getBlogs = async () => {
       setLoading(true)
       try {
-        const res = await axios.get("http://localhost:8080/get-blogs")
+        const res = await axiosInstance.get("/get-blogs")
         setIsError(false)
         setBlogs(res.data.blogs)
       } catch (error) {
@@ -33,7 +33,7 @@ const Blogs = () => {
   const deleteBlog = async (blogId) => {
     try {
       setBlogs((prev) => prev.filter((blog) => blog._id !== blogId))
-      await axios.delete(`http://localhost:8080/delete-blog/${blogId}`)
+      await axiosInstance.delete(`/delete-blog/${blogId}`)
     } catch (error) {
       console.log(error)
     }

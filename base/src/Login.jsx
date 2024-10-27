@@ -1,9 +1,9 @@
 // src/components/Login.js
 import { useState } from "react"
-import axios from "axios"
 import { useNavigate } from "react-router-dom"
 import { useDispatch } from "react-redux"
 import { signIn } from "./redux/userSlice/userSlice"
+import axiosInstance from "./utils/axiosIntance"
 
 const Login = () => {
   const dispatch = useDispatch()
@@ -14,12 +14,11 @@ const Login = () => {
   const handleSubmit = async (e) => {
     e.preventDefault()
     try {
-      const response = await axios.post("http://localhost:8080/login", {
+      const response = await axiosInstance.post("/login", {
         email,
         password,
       })
 
-      console.log(response)
 
       if (response && response.data) {
         // Store the token if login is successful
@@ -27,8 +26,6 @@ const Login = () => {
         // Redirect to home page
         dispatch(signIn(response.data.user))
         navigate("/")
-      } else {
-        console.error("Login failed: No data in response")
       }
     } catch (error) {
       // Check if error response exists and log the specific error
