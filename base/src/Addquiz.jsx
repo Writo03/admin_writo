@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
-import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import axiosInstance from "./utils/axiosIntance"
 
 const Addquiz = () => {
   const [test, setTest] = useState('');
@@ -35,7 +35,7 @@ const Addquiz = () => {
   };
 
   const handleSubmit = () => {
-    axios.post(`https://admin-writo.onrender.com/add-quiz`, { test, questions })
+    axiosInstance.post(`/add-quiz`, { test, questions })
       .then(result => {
         console.log(result);
         setIsSubmitted(true);

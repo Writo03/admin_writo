@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import axios from 'axios';
+import axiosInstance from './utils/axiosIntance';
 
 const EditTest = () => {
   const { id } = useParams(); // Get the quiz id from the route parameters
@@ -12,7 +12,7 @@ const EditTest = () => {
   useEffect(() => {
     const fetchQuiz = async () => {
       try {
-        const response = await axios.get(`https://admin-writo.onrender.com/get-quiz/${id}`);
+        const response = await axiosInstance.get(`/get-quiz/${id}`);
         setQuiz(response.data); // Assuming response.data contains the quiz object
         setLoading(false);
       } catch (error) {
@@ -46,7 +46,7 @@ const EditTest = () => {
   // Function to handle saving the edited quiz (PUT request)
   const handleSave = async () => {
     try {
-      const response = await axios.put(`https://admin-writo.onrender.com/update-quiz/${id}`, quiz);
+      const response = await axiosInstance.put(`/update-quiz/${id}`, quiz);
       console.log('Quiz updated:', response.data);
       navigate('/all-quizes')
     } catch (error) {
@@ -57,7 +57,7 @@ const EditTest = () => {
   // Function to handle deleting the entire quiz
   const handleDeleteQuiz = async () => {
     try {
-      await axios.delete(`https://admin-writo.onrender.com/delete-quiz/${id}`);
+      await axiosInstance.delete(`/delete-quiz/${id}`);
       navigate('/'); // Use navigate instead of history.push
     } catch (error) {
       console.error('Error deleting quiz:', error);

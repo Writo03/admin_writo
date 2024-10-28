@@ -18,6 +18,8 @@ import EditTest from "./EditTest"
 import Blogs from "./Blogs"
 import Login from "./Login"
 import AddPost from "./AddPost.jsx"
+import SeeHomeImages from "./SeeHomeImages.jsx"
+import AddImage from "./AddImage.jsx"
 
 import { store } from "./redux/store.js"
 import { Provider } from "react-redux"
@@ -37,6 +39,9 @@ const router = createBrowserRouter(
       <Route path="/login" element={<Login />} />
       <Route path="/add-blog" element={<AddPost />} />
       <Route path="/edit-blog/:postId" element={<EditPost />} />
+      <Route path="/home-image" element={<SeeHomeImages />} />
+      <Route path="/home-image" element={<SeeHomeImages />} />
+      <Route path="/add-home-image" element={<AddImage />} />
     </Route>
   )
 )

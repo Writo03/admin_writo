@@ -8,6 +8,7 @@ const router = require('./routes/route');
 const quizRouter = require('./routes/quizRoute');
 const blogRouter = require("./routes/blog.routes.js");
 const userRouter = require("./routes/user.routes.js");
+const homeImageRouter = require("./routes/homeImage.routes.js")
 const cors = require('cors');
 const cookiesParser = require("cookie-parser")
 
@@ -71,7 +72,8 @@ mongoose.connect(URL)
   });
 
 // Use the router for handling routes
+app.use(userRouter)
 app.use(router);
 app.use(quizRouter);
 app.use(blogRouter)
-app.use(userRouter)
+app.use(homeImageRouter)

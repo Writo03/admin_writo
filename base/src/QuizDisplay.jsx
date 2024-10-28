@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react"
-import axios from "axios"
 import { Link } from "react-router-dom"
 import img1 from "./assets/quiz.png" 
+import axiosInstance from "./utils/axiosIntance"
 
 const Test_Series = () => {
   let i = 1
@@ -9,7 +9,7 @@ const Test_Series = () => {
   const [load, setLoad] = useState(true)
 
   useEffect(() => {
-    axios.get("https://admin-writo.onrender.com/get-quizes")
+    axiosInstance.get("/get-quizes")
       .then((result) => {
         setData(result.data)
         console.log(result.data)

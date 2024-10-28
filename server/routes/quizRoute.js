@@ -1,6 +1,9 @@
 const express=require('express')
 const router = express.Router()
 const quizController = require('../controller/quizcontroller')
+const verifyUser = require("../middleware/auth.middleware.js")
+
+router.use(verifyUser)
 
 router.post('/add-quiz',quizController.add_quiz)
 

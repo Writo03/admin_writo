@@ -1,6 +1,13 @@
 const QuizModel = require('../models/quiz')
 
+const checkUserCanUpadate = (req) => {
+    if(!req.user && !req.user.isAdmin && !req.user.mentor_access?.includes("QUIZ")){
+        return res.status(400).send("Only admin or mentor with access to quiz can access quiz")
+    }
+}
+
 const add_quiz = (req,res)=>{
+    checkUserCanUpadate(req)
     const quiz = new QuizModel(req.body)
     console.log(quiz)
     quiz.save()
@@ -8,11 +15,13 @@ const add_quiz = (req,res)=>{
 }
 
 const get_quizes = (req,res)=>{
+    checkUserCanUpadate(req)
     QuizModel.find()
     .then(result=>res.json(result))
 }
 
 const get_quiz =(req,res)=>{
+    checkUserCanUpadate(req)
     const id = req.params.id
     QuizModel.findById(id)
     .then(result=>{
@@ -21,6 +30,7 @@ const get_quiz =(req,res)=>{
 }
 
 const update_quiz = (req, res) => {
+    checkUserCanUpadate(req)
     const id = req.params.id;
     const updatedQuizData = req.body;
 
@@ -35,6 +45,7 @@ const update_quiz = (req, res) => {
 };
 
 const delete_quiz = (req, res) => {
+    checkUserCanUpadate(req)
     const id = req.params.id;
     QuizModel.findByIdAndDelete(id)
         .then(result => {
