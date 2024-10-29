@@ -141,6 +141,14 @@ const Home = () => {
             <p className="text-gray-600 mt-2">Home slider images</p>
           </div>
         </Link>
+        <Link to={"/contact-requests"}>
+          <div className="bg-white rounded-lg shadow-lg p-6 hover:shadow-xl transition-shadow duration-300">
+            <h2 className="text-xl font-semibold text-purple-500">
+              Contact Requests
+            </h2>
+            <p className="text-gray-600 mt-2">View all contact requests from users.</p>
+          </div>
+        </Link>
       </div>
       {isModalOpen && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50">

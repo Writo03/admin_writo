@@ -20,6 +20,7 @@ import Login from "./Login"
 import AddPost from "./AddPost.jsx"
 import SeeHomeImages from "./SeeHomeImages.jsx"
 import AddImage from "./AddImage.jsx"
+import ContactReq from "./components/ContactReq.jsx"
 
 import { store } from "./redux/store.js"
 import { Provider } from "react-redux"
@@ -42,6 +43,7 @@ const router = createBrowserRouter(
       <Route path="/home-image" element={<SeeHomeImages />} />
       <Route path="/home-image" element={<SeeHomeImages />} />
       <Route path="/add-home-image" element={<AddImage />} />
+      <Route path="/contact-requests" element={<ContactReq />} />
     </Route>
   )
 )

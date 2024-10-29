@@ -9,6 +9,7 @@ const quizRouter = require('./routes/quizRoute');
 const blogRouter = require("./routes/blog.routes.js");
 const userRouter = require("./routes/user.routes.js");
 const homeImageRouter = require("./routes/homeImage.routes.js")
+const contactRouter = require("./routes/contact.routes.js")
 const cors = require('cors');
 const cookiesParser = require("cookie-parser")
 
@@ -77,3 +78,4 @@ app.use(router);
 app.use(quizRouter);
 app.use(blogRouter)
 app.use(homeImageRouter)
+app.use(contactRouter)

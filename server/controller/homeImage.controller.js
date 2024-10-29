@@ -99,6 +99,9 @@ const deleteImage = async (req, res) => {
     if (!image) {
       return res.status(404).send("Image not found")
     }
+
+    await image.deleteOne()
+
     cloudinary.deleteFromCloudinary(image.image)
 
     return res.status(200).json({
