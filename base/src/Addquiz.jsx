@@ -1,19 +1,25 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axiosInstance from "./utils/axiosIntance"
+import axios from 'axios';
+
 
 const Addquiz = () => {
+
   const [test, setTest] = useState('');
   const [number, setNumber] = useState(0);
   const [flag, setFlag] = useState(true);
   const [flag2, setFlag2] = useState(true);
   const [questions, setQuestions] = useState([]);
   const [question, setQuestion] = useState('');
+  const [image, setImage] = useState(null)
+  const [cldUrl, setCldUrl] = useState('')
   const [option1, setOption1] = useState('');
   const [option2, setOption2] = useState('');
   const [option3, setOption3] = useState('');
   const [option4, setOption4] = useState('');
   const [correct, setCorrect] = useState('');
+  const [isAdding, setIsAdding] = useState(false)
   const [isSubmitted, setIsSubmitted] = useState(false);
 
   const handleTestSubmit = () => {
@@ -22,15 +28,31 @@ const Addquiz = () => {
   
   const navigate = useNavigate();
 
+  const uploadImage = async (e) => {
+    setIsAdding(true)
+      const formData = new FormData();
+      formData.append('file', e.target.files[0]);
+      formData.append("upload_preset", "spx0jjqq")
+
+      const response = await axios.post(`https://api.cloudinary.com/v1_1/dlsxjstxo/image/upload`, formData)
+
+      setCldUrl(response.data.secure_url)
+      setIsAdding(false)
+  }
+
   const handleQuestionSubmit = async () => {
-    setQuestions([...questions, { question, option1, option2, option3, option4, correct }]);
+    setIsAdding(true)
+    setQuestions([...questions, { question, image : cldUrl, option1, option2, option3, option4, correct }]);
     setQuestion('');
+    setImage(null);
+    setCldUrl('');
     setOption1('');
     setOption2('');
     setOption3('');
     setOption4('');
     setCorrect('');
     setNumber(number - 1);
+    setIsAdding(false)
     if (0 === number) await setFlag2(false);
   };
 
@@ -95,6 +117,12 @@ const Addquiz = () => {
             onChange={(e) => setQuestion(e.target.value)}
             value={question}
           />
+          <input
+            type="file"
+            className="border rounded-lg px-4 py-2 mb-4 w-full"
+            onChange={(e) => uploadImage(e)}
+            value={image}
+          />
           <label className="block font-semibold mb-2">Option 1</label>
           <input
             type="text"
@@ -131,7 +159,8 @@ const Addquiz = () => {
             value={correct}
           />
           <button
-            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg w-full"
+          disabled={isAdding}
+            className="bg-green-500 hover:bg-green-600 text-white font-semibold py-2 px-4 rounded-lg w-full disabled:opacity-50"
             onClick={handleQuestionSubmit}
           >
             Add Question

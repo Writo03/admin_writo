@@ -2,6 +2,7 @@ const mongoose = require('mongoose')
 
 const subSchema = mongoose.Schema({
     question:String,
+    image : String,
     option1:String,
     option2:String,
     option3:String,
@@ -11,6 +12,9 @@ const subSchema = mongoose.Schema({
 
 const quizSchema = mongoose.Schema({
     test_name:String,
+    description : {
+        type : String
+    },
     questions:[subSchema]
 })
 

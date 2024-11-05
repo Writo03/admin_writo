@@ -8,6 +8,7 @@ const checkUserCanUpadate = (req) => {
 
 const add_quiz = (req,res)=>{
     checkUserCanUpadate(req)
+    console.log(req.body)
     const quiz = new QuizModel(req.body)
     console.log(quiz)
     quiz.save()
