@@ -7,7 +7,7 @@ const subSchema = mongoose.Schema({
     option2:String,
     option3:String,
     option4:String,
-    correct_option:String
+    correct:String
 })
 
 const quizSchema = mongoose.Schema({
@@ -15,7 +15,19 @@ const quizSchema = mongoose.Schema({
     description : {
         type : String
     },
+    questionsCount : {
+        type : Number
+    },
+    test_type : {
+        type : String,
+        enum : ["jee-all", "neet-all", "jee-subject", "neet-subject"],
+        required : true
+    },
+    subjects : {
+        type : [String],
+        default : []
+    },
     questions:[subSchema]
-})
+}, {timestamps : true})
 
 module.exports = mongoose.model('quiz',quizSchema)

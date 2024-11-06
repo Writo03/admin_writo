@@ -6,13 +6,26 @@ const checkUserCanUpadate = (req) => {
     }
 }
 
-const add_quiz = (req,res)=>{
-    checkUserCanUpadate(req)
-    console.log(req.body)
-    const quiz = new QuizModel(req.body)
-    console.log(quiz)
-    quiz.save()
-    .then(result=>res.send('quiz added'))
+const add_quiz = async (req,res)=>{
+    try {
+        checkUserCanUpadate(req)
+        const {test, questions, testDesc, testType, subjects} = req.body
+        const newQuiz = await QuizModel.create({
+            test_name : test,
+            questions,
+            description : testDesc,
+            test_type : testType,
+            subjects,
+            questionsCount : questions.length
+        })
+        console.log(newQuiz)
+        return res.status(200).json({
+            message : "quiz added successfully"
+        })
+    } catch (error) {
+        console.log("error while adding quiz", error)
+        res.status(500).send("Internal server error while adding quiz");
+    }
 }
 
 const get_quizes = (req,res)=>{
