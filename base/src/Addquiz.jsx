@@ -8,6 +8,9 @@ const Addquiz = () => {
 
   const [test, setTest] = useState('');
   const [number, setNumber] = useState(0);
+  const [testDesc, setTestDesc] = useState("")
+  const [testType, setTestType] = useState("neet-subject")
+  const [subjects, setSubjects] = useState([])
   const [flag, setFlag] = useState(true);
   const [flag2, setFlag2] = useState(true);
   const [questions, setQuestions] = useState([]);
@@ -57,9 +60,8 @@ const Addquiz = () => {
   };
 
   const handleSubmit = () => {
-    axiosInstance.post(`/add-quiz`, { test, questions })
+    axiosInstance.post(`/add-quiz`, { test, questions, testDesc, testType, subjects })
       .then(result => {
-        console.log(result);
         setIsSubmitted(true);
         setTimeout(() => {
           navigate('/');
@@ -98,6 +100,33 @@ const Addquiz = () => {
             name="number"
             onChange={(e) => setNumber(e.target.value - 1)}
           />
+          <label className="block font-semibold mb-2">Test Description</label>
+          <textarea
+            className='border rounded-lg px-4 py-2 mb-4 w-full'
+            onChange={(e) => setTestDesc(e.target.value)}
+            value={testDesc}
+            name='testDesc'
+          />
+          <label className="block font-semibold mb-2">Test Type</label>
+          <select className="border rounded-lg px-4 py-2 mb-4 w-full" onChange={(e) => setTestType(e.target.value)}>
+            <option value="neet-subject">Neet Subject</option>
+            <option value="jee-subject">Jee Subject</option>
+            <option value="neet-all">Neet All</option>
+            <option value="jee-all">Jee All</option>
+          </select>
+
+          <label className="block font-semibold mb-2">Select Subjects</label>
+          <select
+            multiple
+            className="border rounded-lg px-4 py-2 mb-4 w-full"
+            value={subjects}
+            onChange={(e) => setSubjects([...e.target.selectedOptions].map(opt => opt.value))}
+          >
+            <option value="Math">Math</option>
+            <option value="Physics">Physics</option>
+            <option value="Chemistry">Chemistry</option>
+          </select>
+          
           <button
             className="bg-blue-500 hover:bg-blue-600 text-white font-semibold py-2 px-4 rounded-lg w-full"
             onClick={handleTestSubmit}

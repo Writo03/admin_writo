@@ -1,8 +1,8 @@
 import axios from "axios"
 
 const axiosInstance = axios.create({
-  baseURL: "http://localhost:8080"
-  // baseURL: "https://admin-writo.onrender.com",
+  // baseURL: "http://localhost:8080"
+  baseURL: "https://admin-writo.onrender.com",
 })
 
 axiosInstance.interceptors.request.use(
