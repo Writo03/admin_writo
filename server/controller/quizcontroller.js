@@ -9,16 +9,16 @@ const checkUserCanUpadate = (req) => {
 const add_quiz = async (req,res)=>{
     try {
         checkUserCanUpadate(req)
-        const {test, questions, testDesc, testType, subjects} = req.body
+        const {test, questions, testDesc, testType, subjects, time} = req.body
         const newQuiz = await QuizModel.create({
             test_name : test,
             questions,
             description : testDesc,
             test_type : testType,
             subjects,
+            time,
             questionsCount : questions.length
         })
-        console.log(newQuiz)
         return res.status(200).json({
             message : "quiz added successfully"
         })

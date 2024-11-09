@@ -27,6 +27,9 @@ const quizSchema = mongoose.Schema({
         type : [String],
         default : []
     },
+    time : {
+        type : Number
+    },
     questions:[subSchema]
 }, {timestamps : true})
 

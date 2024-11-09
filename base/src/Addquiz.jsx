@@ -9,6 +9,7 @@ const Addquiz = () => {
   const [test, setTest] = useState('');
   const [number, setNumber] = useState(0);
   const [testDesc, setTestDesc] = useState("")
+  const [time, setTime] = useState(null)
   const [testType, setTestType] = useState("neet-subject")
   const [subjects, setSubjects] = useState([])
   const [flag, setFlag] = useState(true);
@@ -60,7 +61,7 @@ const Addquiz = () => {
   };
 
   const handleSubmit = () => {
-    axiosInstance.post(`/add-quiz`, { test, questions, testDesc, testType, subjects })
+    axiosInstance.post(`/add-quiz`, { test, questions, testDesc, testType, subjects,time })
       .then(result => {
         setIsSubmitted(true);
         setTimeout(() => {
@@ -99,6 +100,13 @@ const Addquiz = () => {
             className="border rounded-lg px-4 py-2 mb-4 w-full"
             name="number"
             onChange={(e) => setNumber(e.target.value - 1)}
+          />
+          <label className="block font-semibold mb-2">Time in minutes</label>
+          <input
+            type="number"
+            className="border rounded-lg px-4 py-2 mb-4 w-full"
+            name="number"
+            onChange={(e) => setTime(e.target.value)}
           />
           <label className="block font-semibold mb-2">Test Description</label>
           <textarea
