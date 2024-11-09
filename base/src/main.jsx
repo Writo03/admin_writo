@@ -25,6 +25,7 @@ import ContactReq from "./components/ContactReq.jsx"
 import { store } from "./redux/store.js"
 import { Provider } from "react-redux"
 import EditPost from "./EditPost.jsx"
+import DoubtReq from "./components/Doubtreq.jsx"
 
 const router = createBrowserRouter(
   createRoutesFromElements(
@@ -44,6 +45,7 @@ const router = createBrowserRouter(
       <Route path="/home-image" element={<SeeHomeImages />} />
       <Route path="/add-home-image" element={<AddImage />} />
       <Route path="/contact-requests" element={<ContactReq />} />
+      <Route path="/doubt-requests" element={<DoubtReq />} />
     </Route>
   )
 )
